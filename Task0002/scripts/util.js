@@ -142,8 +142,13 @@ function isMobilePhone(phone) {
 // 判断element是不是有className这个样式
 function hasClass(element, className) {
     // your implement
-    var reg = new RegExp('(^|\s*)' + className +'($|\s*)');
-    return element.className.match(reg);
+    if(element != null) {
+        var reg = new RegExp('(^|\s*)' + className + '($|\s*)');
+        return element.className.match(reg);
+    }
+    else {
+        return false;
+    }
 }
 // 为element增加一个样式名为newClassName的新样式
 function addClass(element, newClassName) {
@@ -209,9 +214,14 @@ function $(selector) {
     // 可以通过id获取DOM对象，通过#标示，例如
     if(selector.match(/^#/)) {
         if(selector.match(/^#.*\s\./)) {
-            //返回id为adom的DOM所包含的所有子节点中，第一个样式定义包含classa的对象
-            var tmp = document.getElementById(selector.substring(1, selector.indexOf(".") - 1));
-            return tmp.querySelector(selector.substring(selector.indexOf(".")));
+            //返回id为adom的DOM所包含的所有子节点中，第一个样式定义包含class的对象
+            var tmp = document.getElementById(selector.substring(1, selector.indexOf(".")));
+            for(var c in tmp.children){
+                if(hasClass(c, selector.substring(selector.indexOf(".")+1))){
+                    return c;
+                }
+            }
+            return null;
         }
         else {
             // 返回id为adom的DOM对象
@@ -220,30 +230,40 @@ function $(selector) {
     }
     if(selector.match(/^\./)) {
         // 可以通过样式名称获取DOM对象，例如
-        // 返回第一个样式定义包含classa的对象
-        return document.querySelector(selector);
+        // 返回第一个样式定义包含class的对象
+        var all = document.getElementsByTagName("*");
+        for(var i = 0, len = all.length; i < len; i++){
+            if(hasClass(all[i], selector.substring(selector.indexOf(".")+1))){
+                return all[i];
+            }
+        }
+        return null;
     }
     if(selector.match(/^\[/)) {
         if(selector.match(/^\[.*=.*/)) {
             // 返回第一个包含属性data-time且值为2015的对象
             var nodeList = document.getElementsByName("*");
-            for(var n in nodeList) {
-                if (n.getAttribute(selector.substring(1, selector.indexOf("="))) ===
+            for(var i = 0, len = nodeList.length; i < len; i++) {
+                if (nodeList[i].getAttribute(selector.substring(1, selector.indexOf("="))) ===
                     selector.substring(selector.indexOf("="), selector.length)) {
-                    return n;
+                    return nodeList[i];
                 }
             }
         }
         else{
             // 可以通过attribute匹配获取DOM对象，例如
             // 返回第一个包含属性data-log的对象
-            var nodeList = document.getElementsByName("*");
-            for(var n in nodeList) {
-                if (n.hasAttribute(selector.substring(1, selector.indexOf("=")))) {
-                    return n;
+            var nodeList = document.getElementsByTagName("*");
+            for(var i = 0, len = nodeList.length; i < len; i++) {
+                if (nodeList[i].hasAttribute(selector.substring(1, selector.indexOf("=")))) {
+                    return nodeList[i];
                 }
             }
         }
+    }
+    else
+    {
+        return document.getElementsByTagName(selector);
     }
 }
 
