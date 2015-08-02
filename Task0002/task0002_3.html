@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0px;
+            border: 0px;
+        }
+        body {
+            overflow-x: hidden;
+            background-color: #000;
+        }
+        #scroll-img {
+            width: 700%;
+            height: 800px;
+            position: relative;
+            margin-left: -100%;
+        }
+        .img {
+            float:left;
+        }
+        img {
+            width: 1349px;
+            height: 400px;
+        }
+        .select-ol {
+            position: absolute;
+            top: 350px;
+            left: 50%;
+            z-index: 15;
+            list-style:none;
+            width: 200px;
+            margin-left: -100px;
+        }
+        .select-ol li{
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border: 1px solid #fff;
+            border-radius: 10px;
+        }
+        .active{
+            background-color: #fff  ;
+         }
+
+    </style>
+</head>
+<body>
+
+
+<button id="goLeft">正序</button>
+<button id="goRight">逆序</button>
+<button id="stop">停止</button>
+<div id="scroll-img">
+    <img id="this-img0" class="img imgleft" src="images/5.jpg">
+    <img id="this-img1" class="img imgleft" src="images/1.jpg">
+    <img id="this-img2" class="img imgleft" src="images/2.jpg">
+    <img id="this-img3" class="img imgleft" src="images/3.jpg">
+    <img id="this-img4" class="img imgleft" src="images/4.jpg">
+    <img id="this-img5" class="img imgleft" src="images/5.jpg">
+    <img id="this-img6" class="img imgleft" src="images/1.jpg">
+</div>
+<ol id="select-ol" class="select-ol">
+    <li id="select-li0" value="0" class="active"></li>
+    <li id="select-li1" value="1"></li>
+    <li id="select-li2" value="2"></li>
+    <li id="select-li3" value="3"></li>
+    <li id="select-li4" value="4"></li>
+</ol>
+<script src="scripts/util.js"></script>
+<script src="scripts/task0002_3.js"></script>
+</body>
+</html>

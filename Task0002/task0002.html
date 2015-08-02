@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>task0002</title>
+</head>
+<body>
+
+<input id="number1" type="text">
+<input id="number2" type="text">
+<span id="result"></span>
+<button id="addbtn" >Submit</button>
+<ul id="list">
+    <li id="item1">Simon</li>
+    <li id="item2">Kenner</li>
+    <li id="item3">Erik</li>
+</ul>
+<script src="scripts/util.js"></script>
+<script>
+//    function $(id) {
+//        return document.getElementById(id);
+//    }
+
+    function add(num1, num2) {
+        return num1 + num2;
+    }
+
+    function renderResult(result) {
+        $("#result").innerHTML = result;
+    }
+
+    function addEventHandle() {
+        var num1 = $("#number1").value;
+        var num2 = $("#number2").value;
+        var result = add(num1, num2);
+        renderResult(result);
+    }
+
+    function initEvent() {
+        $("#addbtn").addEventListener("click", addEventHandle, false);
+    }
+
+    initEvent();
+
+    //测试用例：
+    var srcObj = {
+        a: 1,
+        b: {
+            b1: ["hello", "hi"],
+            b2: "JavaScript"
+        }
+    };
+    var abObj = srcObj;
+    var tarObj = cloneObject(srcObj);
+
+    srcObj.a = 2;
+    srcObj.b.b1[0] = "Hello";
+
+    document.writeln(isArray(srcObj.b.b1));
+    document.writeln(isFunction(addEventHandle));
+
+    document.writeln(abObj.a);
+    document.writeln(abObj.b.b1[0]);
+
+    document.writeln(tarObj.a);      // 1
+    document.writeln(tarObj.b.b1[0]);    // "hello"
+
+    // 使用示例
+    var str = '   hi!  ';
+    str = trim(str);
+    document.writeln(str); // 'hi!'
+
+
+    // 其中fn函数可以接受两个参数：item和index
+
+    // 使用示例
+    var arr = ['java', 'c', 'php', 'html'];
+    function output(item) {
+        document.writeln(item)
+    }
+    each(arr, output);  // java, c, php, html
+    // 使用示例
+    var arr = ['java', 'c', 'php', 'html'];
+    function output2(item, index) {
+        document.writeln(index + ': ' + item)
+    }
+    each2(arr, output2);  // 0:java, 1:c, 2:php, 3:html
+    // 使用示例
+    var obj = {
+        a: 1,
+        b: 2,
+        c: {
+            c1: 3,
+            c2: 4
+        }
+    };
+    document.writeln(getObjectLength(obj)); // 3
+    document.writeln(isEmail("xnchen@csu.edu.cn"));
+    document.writeln(isMobilePhone("13142099456"));
+
+    document.writeln(getPosition($("#addbtn")));
+    //事件托管
+    function clickHandle() {
+        var e = arguments[0] || window.event,
+                target = e.srcElement ? e.srcElement : e.target;
+        alert(target.innerText);
+        return false;
+    }
+    $.delegate("#list", "li", "click", clickHandle);
+    document.writeln(isIE());
+</script>
+</body>
+</html>
