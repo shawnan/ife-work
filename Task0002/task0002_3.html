@@ -4,72 +4,267 @@
     <meta charset="UTF-8">
     <title></title>
     <style>
-        * {
-            margin: 0px;
-            border: 0px;
-        }
-        body {
-            overflow-x: hidden;
-            background-color: #000;
-        }
-        #scroll-img {
-            width: 700%;
-            height: 800px;
-            position: relative;
-            margin-left: -100%;
-        }
-        .img {
-            float:left;
-        }
-        img {
-            width: 1349px;
-            height: 400px;
-        }
-        .select-ol {
-            position: absolute;
-            top: 350px;
-            left: 50%;
-            z-index: 15;
-            list-style:none;
-            width: 200px;
-            margin-left: -100px;
-        }
-        .select-ol li{
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border: 1px solid #fff;
-            border-radius: 10px;
-        }
-        .active{
-            background-color: #fff  ;
-         }
-
-    </style>
+    * {
+        margin: 0px;
+        border: 0px;
+    }
+    body {
+        background-color: #000;
+    }
+    #catiner {
+        width: 800px;
+        height: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        overflow: hidden;
+    }
+    #scroll-img {
+        width: 5600px;
+        height: 400px;
+        position: absolute;
+    }
+    .img {
+        float:left;
+    }
+    img {
+        width: 800px;
+        height: 400px;
+    }
+    .select-ol {
+        position: absolute;
+        top: 350px;
+        left: 320px;
+        z-index: 2;
+        list-style:none;
+    }
+    .select-ol li{
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border: 1px solid #fff;
+        border-radius: 10px;
+    }
+    .active{
+        background-color: #fff;
+     }
+    .carousel-btn-prev,.carousel-btn-next {
+        width: 80px;
+        height: 400px;
+        position: absolute;
+        top: 0px;
+    }
+    .carousel-btn-prev {
+        left: 0px;
+    }
+    .carousel-btn-next {
+        right: 0px;
+    }
+    .icon-wrap-left,.icon-wrap-right {
+        position: relative;
+        display: block;
+        height: 30px;
+        width: 30px;
+        border: none;
+        border-left: 2px solid #fff;
+        border-top: 2px solid #fff;
+        margin-left: 20px;
+        margin-top: 180px;
+    }
+    .icon-wrap-left {
+        transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);       /* IE 9 */
+        -webkit-transform: rotate(-45deg);   /* Safari and Chrome */
+        -o-transform: rotate(-45deg);        /* Opera */
+        -moz-transform: rotate(-45deg);      /* Firefox */
+    }
+    .icon-wrap-right {
+        transform: rotate(135deg);
+        -ms-transform: rotate(135deg);       /* IE 9 */
+        -webkit-transform: rotate(135deg);   /* Safari and Chrome */
+        -o-transform: rotate(135deg);        /* Opera */
+        -moz-transform: rotate(135deg);      /* Firefox */
+    }
+    .icon-wrap-left:hover,.icon-wrap-right:hover {
+        border-color: red;
+    }
+</style>
 </head>
 <body>
 
 
-<button id="goLeft">正序</button>
-<button id="goRight">逆序</button>
+<button id="goNext">正序</button>
+<button id="goPrev">逆序</button>
 <button id="stop">停止</button>
-<div id="scroll-img">
-    <img id="this-img0" class="img imgleft" src="images/5.jpg">
-    <img id="this-img1" class="img imgleft" src="images/1.jpg">
-    <img id="this-img2" class="img imgleft" src="images/2.jpg">
-    <img id="this-img3" class="img imgleft" src="images/3.jpg">
-    <img id="this-img4" class="img imgleft" src="images/4.jpg">
-    <img id="this-img5" class="img imgleft" src="images/5.jpg">
-    <img id="this-img6" class="img imgleft" src="images/1.jpg">
+<div id="catiner">
+    <div id="scroll-img" >
+        <img id="this-img0" class="img imgleft" src="images/5.jpg">
+        <img id="this-img1" class="img imgleft" src="images/1.jpg">
+        <img id="this-img2" class="img imgleft" src="images/2.jpg">
+        <img id="this-img3" class="img imgleft" src="images/3.jpg">
+        <img id="this-img4" class="img imgleft" src="images/4.jpg">
+        <img id="this-img5" class="img imgleft" src="images/5.jpg">
+        <img id="this-img6" class="img imgleft" src="images/1.jpg">
+    </div>
+    <a href="javascript:void(0);" id="prev" class="carousel-btn-prev">
+        <span class="icon-wrap-left"></span>
+    </a>
+    <a href="javascript:void(0);" id="next" class="carousel-btn-next">
+        <span class="icon-wrap-right"></span>
+    </a>
+    <ol id="select-ol" class="select-ol">
+        <li id="select-li0" value="0" class="active"></li>
+        <li id="select-li1" value="1"></li>
+        <li id="select-li2" value="2"></li>
+        <li id="select-li3" value="3"></li>
+        <li id="select-li4" value="4"></li>
+    </ol>
 </div>
-<ol id="select-ol" class="select-ol">
-    <li id="select-li0" value="0" class="active"></li>
-    <li id="select-li1" value="1"></li>
-    <li id="select-li2" value="2"></li>
-    <li id="select-li3" value="3"></li>
-    <li id="select-li4" value="4"></li>
-</ol>
 <script src="scripts/util.js"></script>
-<script src="scripts/task0002_3.js"></script>
+<script type="text/javascript">
+document.getElementById('scroll-img').style.left = '-800px';
+var changeClock;
+var picWidth = 800;
+var cur = 0;
+var direction = null;
+var time = 200;              // 切换总时间
+var interval = 10;            // 切换间隔
+//下一张
+$.click($("#next"), function(){
+    changePicture(-picWidth);
+});
+//上一张
+$.click($("#prev"), function(){
+    changePicture(picWidth);
+});
+
+$.click($("#stop"),function(){
+    clearInterval(changeClock);
+});
+//正序
+$.click($("#goNext"),function(){
+    if (changeClock){
+        $("#stop").click();
+    }
+    changeClock = setInterval(function(){
+        $("#next").click();
+    }, 2000);
+    direction = "next";
+});
+//逆序
+$.click($("#goPrev"),function(){
+    if (changeClock){
+        $("#stop").click();
+    }
+    changeClock = setInterval(function(){
+        $("#prev").click();
+    }, 2000);
+    direction = "prev";
+});
+//点击圆点按钮
+var circles = document.getElementById('select-ol').getElementsByTagName('li');
+for(var i = 0, len = circles.length; i < len; i++){
+    $.click(circles[i], function(){
+        //clearInterval(changeClock);
+        var e = arguments[0] || window.event,
+            target = e.srcElement ? e.srcElement : e.target;
+        var tar = target.value;
+        // console.log("cur" + cur + "tar" + tar);
+        // if (direction === "next"){
+        //     if (tar > cur){//对
+        //         var steps = tar - cur;
+        //         changePicture(-steps * picWidth);
+        //     } else if (tar < cur){
+
+        //     }
+        //     $("#next").click();
+        // } else if (direction === "prev"){
+        //     if (tar > cur){
+        //         changePicture((tar - cur) * picWidth);
+        //     } else {
+
+        //     }
+        // } else {
+            cur = tar;
+            scrollImg.style.left = -((cur + 1) * picWidth) + 'px';
+
+        //}
+        if(target.id != "select-ol") {
+            setClass(target);
+        }
+        return false;
+    });
+}
+//切换
+scrollImg = $("#scroll-img");
+function changePicture(imgWidth){ //图片轮转
+    var newLen, oldLen;
+    var speed = imgWidth / (time / interval);    // 每次切换位移量
+    newLen = parseFloat(scrollImg.style.left) + imgWidth; //切换后right值
+    oldLen = parseFloat(scrollImg.style.left);  //切换前right值
+    if(speed < 0 && oldLen <= (imgWidth * 6))
+    {
+        scrollImg.style.left = imgWidth + "px";
+        newLen = imgWidth * 2;
+    }
+    if(speed > 0 && oldLen >= 0)
+    {
+        scrollImg.style.left = -imgWidth * 5 + "px";
+        newLen = -imgWidth * 4;
+    }
+    function move(){
+        var scrollImg = $("#scroll-img");
+        oldLen = parseFloat(scrollImg.style.left);
+        if((speed < 0 && newLen < oldLen) ||
+            (speed > 0 && newLen > oldLen)){
+            scrollImg.style.left = oldLen + speed + "px";
+            s = setTimeout(move, interval);
+        }
+    }
+    move();
+    var steps = Math.abs(Math.floor(imgWidth / picWidth));
+    console.log(steps);
+    if (steps === 1){
+        if (speed > 0){
+            cur--;
+            if(cur === -1){
+                cur = 4;
+            }
+        } else {
+            cur++;
+            if (cur === 5){
+                cur = 0;
+            }
+        }
+    } else {
+        if (speed > 0){
+            cur -= steps;
+            if(cur === -1){
+                cur = 4;
+            }
+        } else {
+            cur += steps;
+            if (cur === 5){
+                cur = 0;
+            }
+        }
+    }
+    setLiClass(cur);
+}
+function setClass(target){
+    removeClass($(".active"), "active");
+    addClass($("#"+target.id), "active");
+}
+function setLiClass(index){
+    removeClass($(".active"), "active");
+
+    if(index < 5){
+        addClass($("#select-li" + index), "active");
+    } else {
+        addClass($("#select-li0" ), "active");
+    }
+}
+
+</script>
 </body>
 </html>

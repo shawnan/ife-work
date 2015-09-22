@@ -28,9 +28,6 @@ function mouseEventHandler(event){
     }
     if(event.type == "mousemove"){
         if(moveFlag && moveBlock != undefined) {
-            console.log("last" + lastX + "," + lastY);
-            console.log("now" + event.clientX + "," + event.clientY);
-            console.log("move" + new Number(event.clientX - startX)+","+new Number(event.clientY - startY));
             moveBlock.style.left = new Number(event.clientX - startX) + "px";
             moveBlock.style.top = new Number(event.clientY - startY) + "px";
             lastX = event.clientX;
@@ -40,21 +37,21 @@ function mouseEventHandler(event){
     }
     if(event.type == "mouseup"){
         moveFlag = false;
-        if(Math.abs(leftBox.offsetLeft - moveBlock.offsetLeft) > Math.abs(rightBox.offsetLeft - moveBlock.offsetLeft))
+        if (moveBlock == null){
+            return;
+        }
+        if ((Math.abs(leftBox.offsetLeft - moveBlock.offsetLeft) > Math.abs(rightBox.offsetLeft - moveBlock.offsetLeft)))
         {
             moveBlock.parentNode.removeChild(moveBlock);
             moveBlock.style.left = "0px";
             moveBlock.style.top = "0px";
             rightBox.appendChild(moveBlock);
-        }
-        else
-        {
+        } else {
             moveBlock.parentNode.removeChild(moveBlock);
             moveBlock.style.left = "0px";
             moveBlock.style.top = "0px";
             leftBox.appendChild(moveBlock);
         }
-
         moveBlock = null;
     }
 }

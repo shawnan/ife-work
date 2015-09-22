@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button onclick="foo();">test</button>
+<script>
+//构造函数 组合构造  动态原型
+// function Person(name, age, job){
+//     this.name = name;
+//     this.age = age;
+//     this.job = job;
+//     this.colors = ["red", "blue", "green"];
+//     if (typeof this.sayName != "function"){
+//         Person.prototype.sayName = function(){
+//             console.log(this.name);
+//         };
+//     }
+// }
+// var p1 = new Person("chen", 12, "soft");
+// var p2 = new Person("shawnan", 12, "soft");
+// p1.sayName = function(){
+//     console.log("p1");
+// }
+// p1.habit = "swinming";
+// p1.sayName();
+// p2.sayName();
+// console.log(p1.colors);
+// p1.colors.push("white");
+// console.log(p1.colors);
+// console.log(p2.colors);
+// console.log("name" in p1);
+// console.log("habit" in p1);
+// console.log(p1.constructor);
+// console.log(p2.hasOwnProperty("sayName"));
+// console.log(p1.hasOwnProperty("habit"));
+//继承
+//原型继承，有引用类型值问题
+//借用构造函数，即调用父类构造函数，可解决引用类型值问题，但是无法实现函数复用
+//组合继承 借用构造函数+原型链，但是存在调用两次构造函数的问题
+// function Father(name){
+//     this.name = name;
+//     this.colors = ["red", "blue", "green"];
+// }
+// Father.prototype.sayName = function(){
+//     console.log(this.name);
+// }
+// function Sun(name, age){
+//     this.age = age;
+//     Father.call(this, name);
+// }
+// Sun.prototype = new Father();
+// Sun.prototype.constructor = Sun;
+// Sun.prototype.sayAge = function(){
+//     console.log(this.age);
+// }
+// var f = new Father("father");
+// f.sayName();
+// console.log(Father.prototype);
+// var s1 = new Sun("chen", 1);
+// var s2 = new Sun("shawnan", 2);
+// s1.sayAge();
+// s1.colors.push("white");
+// console.log(s1.colors);
+// s2.sayAge();
+// console.log(s2.colors);
+// s1.sayName();
+// s2.sayName();
+// console.log(s1.constructor);
+//寄生组合式继承
+function Father(name){
+    this.name = name;
+    this.colors = ["red", "blue", "green"];
+}
+Father.prototype.sayName = function(){
+    console.log(this.name);
+}
+function Sun(name, age){
+    this.age = age;
+    Father.call(this, name);
+}
+function F(){};
+F.prototype = Father.prototype;
+var prototype = new F();
+Sun.prototype = prototype;
+Sun.prototype.constructor = Sun;
+Sun.prototype.sayAge = function(){
+    console.log(this.age);
+}
+var f = new Father("father");
+f.sayName();
+console.log(Father.prototype);
+var s1 = new Sun("chen", 1);
+var s2 = new Sun("shawnan", 2);
+s1.sayAge();
+s1.colors.push("white");
+console.log(s1.colors);
+s2.sayAge();
+console.log(s2.colors);
+s1.sayName();
+s2.sayName();
+console.log(s1.constructor);
+</script>
+</body>
+</html>
